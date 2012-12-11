@@ -43,10 +43,20 @@
 {% autoescape off %}
       <div id="tabs">
 	<ul>
+	  <li><a href="#base-info" >Base info</a></li>
 	  <li><a href="#dos-header">{{dos.name}}</a></li>
 	  <li><a href="#file-header">{{file_header.name}}</a></li>
 	  <li><a href="#op-header">{{op_header.name}}</a></li>
 	</ul>
+	<div id="base-info">
+	  <table cellspacing="0" cellpadding="0" >
+	    <tr>
+	      {% out pe.is_dll 'DLL image'%}
+	      {% out pe.NT_HEADERS.Signature 'NT Header signature' %}
+	      {% out pe.PE_TYPE|peType 'PE type' %}
+	    </tr>
+	  </table>
+	</div>
 	<div id="dos-header">
 	  <table cellspacing="0" cellpadding="0">
 	    <tr>

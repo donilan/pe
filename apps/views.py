@@ -11,7 +11,8 @@ def dll(request):
     return render_to_response('dll.html', _pe_attr(pe))
 
 def _pe_attr(pe):
-    return {'dos': pe.DOS_HEADER, 
+    return {'pe': pe,
+            'dos': pe.DOS_HEADER, 
             'dos_length': pe.DOS_HEADER.__format_length__,
             'file_header': pe.FILE_HEADER,
             'machine': pefile.MACHINE_TYPE[pe.FILE_HEADER.Machine],

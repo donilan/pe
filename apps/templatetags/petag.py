@@ -53,6 +53,13 @@ def op_header_dll_characteristics(value):
 def timestampFn(value):
     return time.asctime(time.gmtime(value))
 
+@register.filter(name='peType')
+def peType(value):
+    if pefile.OPTIONAL_HEADER_MAGIC_PE == value:
+        return 'Optional header magic pe'
+    elif pefile.OPTIONAL_HEADER_MAGIC_PE_PLUS == value:
+        return 'Optional header magic pe plus'
+
 @register.simple_tag(takes_context=True, name='out')
 def outFn(context, value, title, important=False):
     if important:
@@ -60,9 +67,11 @@ def outFn(context, value, title, important=False):
     else:
         important = ''
 
-    if isinstance(value, int) or isinstance(value, long):
+    if isinstance(value, bool):
+        value = 'True' if value else 'False'
+    elif isinstance(value, int) or isinstance(value, long):
         value = hexFn(value)
-
+    
     return ''.join(['<td class="title">', title,
                     '</td><td class="value ',
                     important, '">', value, '</td>'])
