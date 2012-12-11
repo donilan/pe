@@ -22,14 +22,14 @@ def hex8Fn(value):
 @register.filter(name='file_header_characteristics')
 def file_header_characteristics(value):
     if isinstance(value, int):
-        result = '<table cellspacing="0" cellpadding="0" style="width: 300px;" >'
+        result = '<table cellspacing="0" cellpadding="0" style="width: 300px;" >\n'
         for k, v in filter(lambda a: isinstance(a[0], int), pefile.IMAGE_CHARACTERISTICS.items()):
             result += '<tr><td class="title">'+ v+ '</td><td>'
             if value & k > 0:
                 result += '<span class="important">True</span>'
             else:
                 result += 'False'
-            result += '</td></tr>'
+            result += '</td></tr>\n'
 
         result += '</table>'
         return result
@@ -38,5 +38,18 @@ def file_header_characteristics(value):
 
 @register.filter(name='timestamp')
 def timestampFn(value):
-    return '[%s UTC]' % time.asctime(time.gmtime(value))
-        
+    return time.asctime(time.gmtime(value))
+
+@register.simple_tag(takes_context=True, name='out')
+def outFn(context, value, title, important=False):
+    if important:
+        important = 'important'
+    else:
+        important = ''
+
+    if isinstance(value, int) or isinstance(value, long):
+        value = hexFn(value)
+
+    return ''.join(['<td class="title">', title,
+                    '</td><td class="value ',
+                    important, '">', value, '</td>'])

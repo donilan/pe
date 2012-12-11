@@ -15,5 +15,8 @@ def _pe_attr(pe):
             'dos_length': pe.DOS_HEADER.__format_length__,
             'file_header': pe.FILE_HEADER,
             'machine': pefile.MACHINE_TYPE[pe.FILE_HEADER.Machine],
-            'file_header_length': pe.FILE_HEADER.__format_length__}
+            'file_header_length': pe.FILE_HEADER.__format_length__,
+            'op_header': pe.OPTIONAL_HEADER,
+            'op_header_length': pe.OPTIONAL_HEADER.__format_length__,
+            }
 

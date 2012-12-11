@@ -40,99 +40,79 @@
   </head>
   <body>
     <div id="content">
+{% autoescape off %}
       <div id="tabs">
 	<ul>
 	  <li><a href="#dos-header">{{dos.name}}</a></li>
 	  <li><a href="#file-header">{{file_header.name}}</a></li>
+	  <li><a href="#op-header">{{op_header.name}}</a></li>
 	</ul>
 	<div id="dos-header">
 	  <table cellspacing="0" cellpadding="0">
 	    <tr>
-	      <td class="title">e_magic</td>
-	      <td class="value important">{{ dos.e_magic|hex }}</td>
-	      <td class="title">Length</td>
-	      <td class="value">{{ dos_length|hex }}</td>
-	      <td class="title">e_lfanew</td>
-	      <td class="value important">{{ dos.e_lfanew|hex }}</td>
+	      {% out dos.e_magic|hex 'e_magic' 1 %}
+	      {% out dos_length|hex 'Length' %}
+	      {% out dos.e_lfanew|hex 'e_lfanew' 1 %}
 	    </tr>
 	    <tr>
-	      <td class="title">e_cblp</td>
-	      <td class="value">{{dos.e_cblp|hex}}</td>
-	      <td class="title">e_cp</td>
-	      <td class="value">{{dos.e_cp|hex}}</td>
-	      <td class="title">e_cparhdr</td>
-	      <td class="value">{{dos.e_cparhdr}}</td>
+	      {% out dos.e_cblp|hex 'e_cbpl' %}
+	      {% out dos.e_cp|hex 'e_cp' %}
+	      {% out dos.e_cparhdr 'e_cparhdr' %}
 	    </tr>
 	    <tr>
-	      <td class="title">e_crlc</td>
-	      <td class="value">{{dos.e_crlc|hex}}</td>
-	      <td class="title">e_cs</td>
-	      <td class="value">{{dos.e_cs|hex}}</td>
-	      <td class="title">e_csum</td>
-	      <td class="value">{{dos.e_csum|hex}}</td>
+	      {% out dos.e_crlc|hex 'e_crlc' %}
+	      {% out dos.e_cs|hex 'e_cs' %}
+	      {% out dos.e_csum|hex 'e_csum' %}
 	    </tr>
 	    <tr>
-	      <td class="title">e_ip</td>
-	      <td class="value">{{dos.e_ip|hex}}</td>
-	      <td class="title">e_lfarlc</td>
-	      <td class="value">{{dos.e_lfarlc|hex}}</td>
-	      <td class="title">e_maxalloc</td>
-	      <td class="value">{{dos.e_maxalloc|hex}}</td>
+	      {% out dos.e_ip|hex 'e_ip' %}
+	      {% out dos.e_lfarlc|hex 'e_lfarlc' %}
+	      {% out dos.e_maxalloc|hex 'e_maxalloc' %}
 	    </tr>
 	    <tr>
-	      <td class="title">e_minalloc</td>
-	      <td class="value">{{dos.e_minalloc|hex}}</td>
-	      <td class="title">e_oemid</td>
-	      <td class="value">{{dos.e_oemid|hex}}</td>
-	      <td class="title">e_ovno</td>
-	      <td class="value">{{dos.e_ovno|hex}}</td>
+	      {% out dos.e_minalloc|hex 'e_minalloc' %}
+	      {% out dos.e_oemid|hex 'e_oemid' %}
+	      {% out dos.e_ovno|hex 'e_ovno' %}
 	    </tr>
 	    <tr>
-	      <td class="title">e_res</td>
-	      <td class="value">{{dos.e_res|hex}}</td>
-	      <td class="title">e_res2</td>
-	      <td class="value">{{dos.e_res2|hex}}</td>
-	      <td class="title">e_sp</td>
-	      <td class="value">{{dos.e_sp|hex8}}</td>
+	      {% out dos.e_res|hex 'e_res' %}
+	      {% out dos.e_res2|hex 'e_res2' %}
+	      {% out dos.e_sp|hex8 'e_sp' %}
 	    </tr>
 	    <tr>
-	      <td class="title">e_ss</td>
-	      <td class="value">{{dos.e_ss|hex8}}</td>
-	      <td class="title"></td>
-	      <td class="value"></td>
-	      <td class="title"></td>
-	      <td class="value"></td>
+	      {% out dos.e_ss|hex8 'e_ss' %}
+	      <td colspan="4"></td>
 	    </tr>
 	  </table>
 	</div>
 	<div id="file-header">
 	  <table cellspacing="0" cellpadding="0" >
 	    <tr>
-	      <td class="title">Machine</td>
-	      <td class="value">{{machine}}</td>
-	      <td class="title">Length</td>
-	      <td class="value">{{file_header_length|hex}}</td>
-	      <td class="title">Number of sections</td>
-	      <td class="value">{{file_header.NumberOfSections}}</td>
-	      <td class="title">Time date stamp</td>
-	      <td class="value">{{file_header.TimeDateStamp|timestamp}}</td>
+	      {% out machine 'Machine' %}
+	      {% out file_header_length 'Length' %}
+	      {% out file_header.NumberOfSections 'Number of sections' %}
+	      {% out file_header.TimeDateStamp|timestamp 'Time date stamp' %}
 	    </tr>
 	    <tr>
-	      <td class="title">Pointer to symbol table</td>
-	      <td class="value">{{file_header.PointerToSymbolTable}}</td>
-	      <td class="title">Number of symbols</td>
-	      <td class="value">{{file_header.NumberOfSymbols}}</td>
-	      <td class="title">Size of optional header</td>
-	      <td class="value">{{file_header.SizeOfOptionalHeader|hex4}}</td>
-	      <td class="title">Characteristics</td>
-	      <td class="value">{{file_header.Characteristics|hex4}}</td>
+	      {% out file_header.PointerToSymbolTable|hex 'Pointer to symbol table' %}
+	      {% out file_header.NumberOfSymbols 'NumberOfSymbols' %}
+	      {% out file_header.SizeOfOptionalHeader|hex4 'Size of optional header' %}
+	      {% out file_header.Characteristics|hex4 'Characteristics' %}
 	    </tr>
 	  </table>
-
+	  
 	  <h1>Characteristics</h1>
-	  {{file_header.Characteristics|file_header_characteristics|safe}}
+	  {{ file_header.Characteristics|file_header_characteristics }}
+	</div>
+	<div id="op-header">
+	  <table cellspacing="0" cellpadding="0">
+	    <tr>
+	      {% out op_header.AddressOfEntryPoint|hex8 'Address of entry point' %}
+	    </tr>
+	  </table>
 	</div>
       </div>
+{% endautoescape %}
     {% block content %}{% endblock %}
     </div>
   </body>
