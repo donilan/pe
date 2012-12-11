@@ -40,13 +40,13 @@
   </head>
   <body>
     <div id="content">
-{% autoescape off %}
       <div id="tabs">
 	<ul>
 	  <li><a href="#base-info" >Base info</a></li>
 	  <li><a href="#dos-header">{{dos.name}}</a></li>
 	  <li><a href="#file-header">{{file_header.name}}</a></li>
 	  <li><a href="#op-header">{{op_header.name}}</a></li>
+	  <li><a href="#sections">Sections</a></li>
 	</ul>
 	<div id="base-info">
 	  <table cellspacing="0" cellpadding="0" >
@@ -112,7 +112,7 @@
 	  </table>
 	  
 	  <h1>Characteristics</h1>
-	  {{ file_header.Characteristics|file_header_characteristics }}
+	  {{ file_header.Characteristics|file_header_characteristics|safe }}
 	</div>
 	<div id="op-header">
 	  <table cellspacing="0" cellpadding="0">
@@ -162,10 +162,43 @@
 	    </tr>
 	  </table>
 	  <h1>DLL Characteristics</h1>
-	  {{op_header.DllCharacteristics|op_header_dll_characteristics }}
+	  {{op_header.DllCharacteristics|op_header_dll_characteristics|safe }}
+	</div>
+	<div id="sections">
+	  <table cellspacing="0" cellpadding="0">
+	    <tr>
+	      <td class="title">Name</td>
+	      <td class="title">Pointer To Raw Data</td>
+	      <td class="title">Size Of Raw Data</td>
+	      <td class="title">Virtual Address</td>
+	      <td class="title">Misc</td>
+	      <td class="title">Misc Physical Address</td>
+	      <td class="title">Misc Virtual Size</td>
+	      <td class="title">Number Of Linenumbers</td>
+	      <td class="title">Number Of Relocations</td>
+	      <td class="title">Pointer To Line numbers</td>
+	      <td class="title">Pointer To Relocations</td>
+	      <td class="title">Characteristics</td>
+	    </tr>
+	    {% for s in pe.sections %}
+	    <tr>
+	      <td class="value">{{ s.Name }}</td>
+	      <td class="value important">{{ s.PointerToRawData|hex }}</td>
+	      <td class="value important">{{ s.SizeOfRawData|hex }}</td>
+	      <td class="value important">{{ s.VirtualAddress|hex8 }}</td>
+	      <td class="value">{{ s.Misc|hex }}</td>
+	      <td class="value">{{ s.Misc_PhysicalAddress|hex8 }}</td>
+	      <td class="value">{{ s.Misc_VirtualSize|hex }}</td>
+	      <td class="value">{{ s.NumberOfLinenumbers|hex }}</td>
+	      <td class="value">{{ s.NumberOfRelocations|hex }}</td>
+	      <td class="value">{{ s.PointerToLinenumbers|hex }}</td>
+	      <td class="value">{{ s.PointerToRelocations|hex }}</td>
+	      <td class="value">{{ s.Characteristics|section_characteristics|safe}}</td>
+	    </tr>
+	    {% endfor %}
+	  </table>
 	</div>
       </div>
-{% endautoescape %}
     {% block content %}{% endblock %}
     </div>
   </body>

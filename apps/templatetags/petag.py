@@ -19,7 +19,7 @@ def hex4Fn(value):
 def hex8Fn(value):
     return hexFn(value, '0x%08X')
 
-@register.filter(name='file_header_characteristics')
+@register.filter(name='file_header_characteristics', is_safe=True)
 def file_header_characteristics(value):
     if isinstance(value, int):
         result = '<table cellspacing="0" cellpadding="0" style="width: 300px;" >\n'
@@ -36,7 +36,7 @@ def file_header_characteristics(value):
     else:
         return value
 
-@register.filter(name='op_header_dll_characteristics')
+@register.filter(name='op_header_dll_characteristics', is_safe=True)
 def op_header_dll_characteristics(value):
     result = '<table cellspacing="0" cellpadding="0" style="width: 300px;" >\n'
     for v, k in pefile.dll_characteristics:
@@ -47,6 +47,14 @@ def op_header_dll_characteristics(value):
             result += 'False'
         result += '</td></tr>\n'
     result += '</table>'
+    return result
+
+@register.filter(name='section_characteristics', is_safe=True)
+def section_characteristics(value):
+    result = ''
+    for v, k in pefile.section_characteristics:
+        if value & k > 0:
+            result += v + '<br />\n'
     return result
 
 @register.filter(name='timestamp')
