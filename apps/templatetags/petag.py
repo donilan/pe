@@ -1,5 +1,5 @@
 from django import template
-import pefile
+import pefile, time
 
 register = template.Library()
 
@@ -21,14 +21,22 @@ def hex8Fn(value):
 
 @register.filter(name='file_header_characteristics')
 def file_header_characteristics(value):
-    result = '<table cellspacing="0" cellpadding="0" style="width: 300px;" >'
-    for k, v in filter(lambda a: isinstance(a[0], int), pefile.IMAGE_CHARACTERISTICS.items()):
-        result += '<tr><td class="title">'+ v+ '</td><td>'
-        if value & k > 0:
-            result += '<span class="important">True</span>'
-        else:
-            result += 'False'
-        result += '</td></tr>'
+    if isinstance(value, int):
+        result = '<table cellspacing="0" cellpadding="0" style="width: 300px;" >'
+        for k, v in filter(lambda a: isinstance(a[0], int), pefile.IMAGE_CHARACTERISTICS.items()):
+            result += '<tr><td class="title">'+ v+ '</td><td>'
+            if value & k > 0:
+                result += '<span class="important">True</span>'
+            else:
+                result += 'False'
+            result += '</td></tr>'
 
-    result += '</table>'
-    return result
+        result += '</table>'
+        return result
+    else:
+        return value
+
+@register.filter(name='timestamp')
+def timestampFn(value):
+    return '[%s UTC]' % time.asctime(time.gmtime(value))
+        

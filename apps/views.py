@@ -8,7 +8,7 @@ def exe(request):
 
 def dll(request):
     pe = pefile.PE('PSAPI.DLL')
-    return render_to_response('pe.html', {'pe': pe})
+    return render_to_response('dll.html', _pe_attr(pe))
 
 def _pe_attr(pe):
     return {'dos': pe.DOS_HEADER, 
