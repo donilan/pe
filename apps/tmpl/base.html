@@ -107,9 +107,52 @@
 	<div id="op-header">
 	  <table cellspacing="0" cellpadding="0">
 	    <tr>
-	      {% out op_header.AddressOfEntryPoint|hex8 'Address of entry point' %}
+	      {% out op_header.AddressOfEntryPoint|hex8 'Address of entry point' 1 %}
+	      {% out op_header.BaseOfCode|hex8 'Base of code' 1 %}
+	      {% out op_header.BaseOfData|hex8 'Base of data' 1 %}
+	      {% out op_header.CheckSum 'Checksum' %}
+
+	    </tr>
+	    <tr>
+	      {% out op_header.ImageBase|hex8 'Image base' 1 %}
+	      {% out op_header.LoaderFlags|hex8 'Loader flags' %}
+	      {% out op_header.Magic 'Magic' %}
+	      {% out op_header.MajorImageVersion 'Major image version' %}
+	    </tr>
+	    <tr>
+	      {% out op_header.MinorImageVersion 'Minor image version' %}
+	      {% out op_header.MajorOperatingSystemVersion 'Major operating system version' %}
+
+	      {% out op_header.MinorOperatingSystemVersion 'Minor operating system version' %}
+	      {% out op_header.MajorSubsystemVersion 'Major subsystem version' %}
+	    </tr>
+	    <tr>
+      	      {% out op_header.MinorSubsystemVersion 'Minor subsystem version' %}
+	      {% out op_header.NumberOfRvaAndSizes 'Number of RVA and sizes' %}
+	      {% out op_header.Reserved1 'Reserved1' %}
+	      {% out op_header.SectionAlignment 'Section alignment' %}
+	    </tr>
+	    <tr>
+	      {% out op_header.SizeOfCode 'Size of code' %}
+	      {% out op_header.SizeOfHeaders 'Size of headers' %}
+	      {% out op_header.SizeOfHeapCommit 'Size of heap commit' %}
+	      {% out op_header.SizeOfHeapReserve 'Size of heap reserve' %}
+	    </tr>
+	    <tr>
+	      {% out op_header.SizeOfImage 'Size of image' %}
+	      {% out op_header.SizeOfInitializedData 'Size of initialized data' %}
+	      {% out op_header.SizeOfStackCommit 'Size of stack commit' %}
+	      {% out op_header.SizeOfStackReserve 'Size of stack reserve' %}
+	    </tr>
+	    <tr>
+	      {% out op_header.SizeOfUninitializedData 'Size of uninitialized data' %}
+	      {% out op_header.Subsystem 'Subsystem' %}
+	      {% out op_header.FileAlignment 'File alignment' 1 %}
+	      {% out op_header.DllCharacteristics 'DLL Characteristics' 1 %}
 	    </tr>
 	  </table>
+	  <h1>DLL Characteristics</h1>
+	  {{op_header.DllCharacteristics|op_header_dll_characteristics }}
 	</div>
       </div>
 {% endautoescape %}

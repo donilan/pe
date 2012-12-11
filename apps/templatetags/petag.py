@@ -36,6 +36,19 @@ def file_header_characteristics(value):
     else:
         return value
 
+@register.filter(name='op_header_dll_characteristics')
+def op_header_dll_characteristics(value):
+    result = '<table cellspacing="0" cellpadding="0" style="width: 300px;" >\n'
+    for v, k in pefile.dll_characteristics:
+        result += '<tr><td class="title">'+ v+ '</td><td>'
+        if value & k > 0:
+            result += '<span class="important">True</span>'
+        else:
+            result += 'False'
+        result += '</td></tr>\n'
+    result += '</table>'
+    return result
+
 @register.filter(name='timestamp')
 def timestampFn(value):
     return time.asctime(time.gmtime(value))
