@@ -47,6 +47,7 @@
 	  <li><a href="#file-header">{{file_header.name}}</a></li>
 	  <li><a href="#op-header">{{op_header.name}}</a></li>
 	  <li><a href="#sections">Sections</a></li>
+	  <li><a href="#imported-symbols">Imported symbols</a></li>
 	</ul>
 	<div id="base-info">
 	  <table cellspacing="0" cellpadding="0" >
@@ -197,6 +198,44 @@
 	    </tr>
 	    {% endfor %}
 	  </table>
+	</div>
+	<div id="imported-symbols">
+	  <a href="http://sandsprite.com/CodeStuff/Understanding_imports.html" target="_blank">
+	    Link to Understanding the import address table
+	  </a>
+	  {% for entry in pe.DIRECTORY_ENTRY_IMPORT %}
+	  <h1>{{ entry.dll }}</h1>
+	  <table cellspacing="0" cellpadding="0" >
+	    <tr>
+	      <td class="title">name</td>
+	      <td class="title">address</td>
+	      <td class="title">bound</td>
+	      <td class="title">hint</td>
+	      <td class="title">hint name table rva</td>
+	      <td class="title">import by ordinal</td>
+	      <td class="title">name offset</td>
+	      <td class="title">ordinal</td>
+	      <td class="title">ordinal offset</td>
+	      <td class="title">thunk offset</td>
+	      <td class="title">thunk rva</td>
+	    </tr>
+	    {% for imp in entry.imports %}
+	    <tr>
+	      <td class="value" >{{imp.name}}</td>
+	      <td class="value" >{{imp.address|hex8}}</td>
+	      <td class="value" >{{imp.bound|hex}}</td>
+	      <td class="value" >{{imp.hint|hex}}</td>
+	      <td class="value" >{{imp.hint_name_table_rva|hex}}</td>
+	      <td class="value" >{{imp.import_by_ordinal}}</td>
+	      <td class="value" >{{imp.name_offset|hex}}</td>
+	      <td class="value" >{{imp.ordinal}}</td>
+	      <td class="value" >{{imp.ordinal_offset|hex}}</td>
+	      <td class="value" >{{imp.thunk_offset|hex}}</td>
+	      <td class="value" >{{imp.thunk_rva|hex}}</td>
+	    </tr>
+	    {% endfor %}
+	  </table>
+	  {% endfor %}
 	</div>
       </div>
     {% block content %}{% endblock %}
