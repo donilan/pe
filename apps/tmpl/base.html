@@ -1,0 +1,139 @@
+{% load petag %}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>{% block title %}Web PE {% endblock %}</title>
+    <style type="text/css" media="screen">
+      body{font-size: 12px;}
+      h1{font-size: 14px;}
+      table {
+      width: 100%;
+      font-size: 12px;
+      border-top: 1px solid #AAA;
+      border-left: 1px solid #AAA;
+      }
+      th, td {
+      border-bottom: 1px solid #AAA;
+      border-right: 1px solid #AAA;
+      padding: 4px;
+      }
+      .title {
+      font-weight: bold;
+      background-color: #EEE;
+      }
+      .important {color: red;}
+      .more-important {color: blue; font-size: 14px; font-weight: bold;}
+      .group{border: 2px solid black; padding: 3px;}
+    </style>
+    <link rel="stylesheet" 
+	  href="/static/css/smoothness/jquery-ui-1.9.2.custom.min.css" 
+	  type="text/css" media="screen" />
+
+    <script type="text/javascript" 
+	    src="/static/js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" 
+	    src="/static/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+      $('#tabs').tabs();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="content">
+      <div id="tabs">
+	<ul>
+	  <li><a href="#dos-header">{{dos.name}}</a></li>
+	  <li><a href="#file-header">{{file_header.name}}</a></li>
+	</ul>
+	<div id="dos-header">
+	  <table cellspacing="0" cellpadding="0">
+	    <tr>
+	      <td class="title">e_magic</td>
+	      <td class="value important">{{ dos.e_magic|hex }}</td>
+	      <td class="title">Length</td>
+	      <td class="value">{{ dos_length|hex }}</td>
+	      <td class="title">e_lfanew</td>
+	      <td class="value important">{{ dos.e_lfanew|hex }}</td>
+	    </tr>
+	    <tr>
+	      <td class="title">e_cblp</td>
+	      <td class="value">{{dos.e_cblp|hex}}</td>
+	      <td class="title">e_cp</td>
+	      <td class="value">{{dos.e_cp|hex}}</td>
+	      <td class="title">e_cparhdr</td>
+	      <td class="value">{{dos.e_cparhdr}}</td>
+	    </tr>
+	    <tr>
+	      <td class="title">e_crlc</td>
+	      <td class="value">{{dos.e_crlc|hex}}</td>
+	      <td class="title">e_cs</td>
+	      <td class="value">{{dos.e_cs|hex}}</td>
+	      <td class="title">e_csum</td>
+	      <td class="value">{{dos.e_csum|hex}}</td>
+	    </tr>
+	    <tr>
+	      <td class="title">e_ip</td>
+	      <td class="value">{{dos.e_ip|hex}}</td>
+	      <td class="title">e_lfarlc</td>
+	      <td class="value">{{dos.e_lfarlc|hex}}</td>
+	      <td class="title">e_maxalloc</td>
+	      <td class="value">{{dos.e_maxalloc|hex}}</td>
+	    </tr>
+	    <tr>
+	      <td class="title">e_minalloc</td>
+	      <td class="value">{{dos.e_minalloc|hex}}</td>
+	      <td class="title">e_oemid</td>
+	      <td class="value">{{dos.e_oemid|hex}}</td>
+	      <td class="title">e_ovno</td>
+	      <td class="value">{{dos.e_ovno|hex}}</td>
+	    </tr>
+	    <tr>
+	      <td class="title">e_res</td>
+	      <td class="value">{{dos.e_res|hex}}</td>
+	      <td class="title">e_res2</td>
+	      <td class="value">{{dos.e_res2|hex}}</td>
+	      <td class="title">e_sp</td>
+	      <td class="value">{{dos.e_sp|hex8}}</td>
+	    </tr>
+	    <tr>
+	      <td class="title">e_ss</td>
+	      <td class="value">{{dos.e_ss|hex8}}</td>
+	      <td class="title"></td>
+	      <td class="value"></td>
+	      <td class="title"></td>
+	      <td class="value"></td>
+	    </tr>
+	  </table>
+	</div>
+	<div id="file-header">
+	  <table cellspacing="0" cellpadding="0" >
+	    <tr>
+	      <td class="title">Machine</td>
+	      <td class="value">{{machine}}</td>
+	      <td class="title">Length</td>
+	      <td class="value">{{file_header_length|hex}}</td>
+	      <td class="title">Number of sections</td>
+	      <td class="value">{{file_header.NumberOfSections}}</td>
+	      <td class="title">Time date stamp</td>
+	      <td class="value">{{file_header.TimeDateStamp}}</td>
+	    </tr>
+	    <tr>
+	      <td class="title">Pointer to symbol table</td>
+	      <td class="value">{{file_header.PointerToSymbolTable}}</td>
+	      <td class="title">Number of symbols</td>
+	      <td class="value">{{file_header.NumberOfSymbols}}</td>
+	      <td class="title">Size of optional header</td>
+	      <td class="value">{{file_header.SizeOfOptionalHeader|hex4}}</td>
+	      <td class="title">Characteristics</td>
+	      <td class="value">{{file_header.Characteristics|hex4}}</td>
+	    </tr>
+	  </table>
+
+	  <h1>Characteristics</h1>
+	  {{file_header.Characteristics|file_header_characteristics|safe}}
+	</div>
+      </div>
+    {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
