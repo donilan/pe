@@ -19,5 +19,7 @@ def _pe_attr(pe):
             'file_header_length': pe.FILE_HEADER.__format_length__,
             'op_header': pe.OPTIONAL_HEADER,
             'op_header_length': pe.OPTIONAL_HEADER.__format_length__,
+            'resource': pe.DIRECTORY_ENTRY_RESOURCE,
+            'resource_length': pe.DIRECTORY_ENTRY_RESOURCE.struct.__format_length__,
             }
 

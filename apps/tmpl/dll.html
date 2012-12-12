@@ -1,6 +1,53 @@
 {% extends "base.html" %}
 {% load petag %}
 
-{% block content %}
-
+{% block tab_titles %}
+<li><a href="#exported-symbols" >Exported symbols</a></li>
+{% endblock %}
+{% block tab_contents %}
+<div id="exported-symbols">
+  <h1>{{pe.DIRECTORY_ENTRY_EXPORT.struct.name}}</h1>
+  <table cellspacing="0" cellpadding="0" >
+    <tr>
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.AddressOfFunctions|hex8 'Address of functions' %}
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.AddressOfNameOrdinals|hex8 'Address of name ordinals' %}
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.AddressOfNames|hex8 'Address of names' %}
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.Base|hex 'Base' %}
+    </tr>
+    <tr>
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.MajorVersion 'Major version' %}
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.MinorVersion 'Minor version' %}
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.NumberOfFunctions 'Number of functions' %}
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.NumberOfNames 'Number of names' %}
+    </tr>
+    <tr>
+      {% out pe.DIRECTORY_ENTRY_EXPORT.struct.TimeDateStamp|timestamp 'Time date stamp' %}
+    </tr>
+  </table>
+  <h1>Symbols</h1>
+  <table cellspacing="0" cellpadding="0" >
+    <tr>
+      <td class="title">Name</td>
+      <td class="title">Address</td>
+      <td class="title">Address offset</td>
+      <td class="title">Forwarder</td>
+      <td class="title">Forwarder offset</td>
+      <td class="title">Name offset</td>
+      <td class="title">Ordinal</td>
+      <td class="title">Ordinal offset</td>
+    </tr>
+    {% for s in pe.DIRECTORY_ENTRY_EXPORT.symbols %}
+    <tr>
+      <td>{{s.name}}</td>
+      <td>{{s.address|hex8}}</td>
+      <td>{{s.address_offset|hex8}}</td>
+      <td>{{s.forwarder}}</td>
+      <td>{{s.forwarder_offset|hex8}}</td>
+      <td>{{s.name_offset|hex8}}</td>
+      <td>{{s.ordinal}}</td>
+      <td>{{s.ordinal_offset|hex8}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}

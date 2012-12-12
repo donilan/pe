@@ -68,6 +68,18 @@ def peType(value):
     elif pefile.OPTIONAL_HEADER_MAGIC_PE_PLUS == value:
         return 'Optional header magic pe plus'
 
+@register.filter(name='resourceType')
+def resourceType(value):
+    for v,k in pefile.resource_type:
+        if k == value:
+            return v
+    return 'Unknow'
+
+@register.filter(name='lang')
+def lang(value):
+    return pefile.LANG[value]
+        
+
 @register.simple_tag(takes_context=True, name='out')
 def outFn(context, value, title, important=False):
     if important:
@@ -78,8 +90,32 @@ def outFn(context, value, title, important=False):
     if isinstance(value, bool):
         value = 'True' if value else 'False'
     elif isinstance(value, int) or isinstance(value, long):
-        value = hexFn(value)
+        value = str(value)
     
     return ''.join(['<td class="title">', title,
                     '</td><td class="value ',
                     important, '">', value, '</td>'])
+
+@register.simple_tag(takes_context=True, name='peResource')
+def peResource(context, pe, rva, size, typeId):
+
+    # RT_STRING
+    if typeId == 6:
+        data = pe.get_memory_mapped_image()[rva:rva+size]
+        offset = 0
+        strings = []
+        while True:
+            if offset >= size:
+                break
+            ustr_length = pe.get_word_from_data(data[offset:offset+2],0)
+            offset += 2
+            if ustr_length == 0:
+                continue
+            ustr = pe.get_string_u_at_rva(rva+offset, max_length=ustr_length)
+            offset += ustr_length*2
+            strings.append(ustr)
+
+        return '<ol>' + ''.join(['<li>' +s + '</li>'for s in strings]) + '</ol>'
+    else:
+        return '-'
+    

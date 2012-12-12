@@ -48,12 +48,14 @@
 	  <li><a href="#op-header">{{op_header.name}}</a></li>
 	  <li><a href="#sections">Sections</a></li>
 	  <li><a href="#imported-symbols">Imported symbols</a></li>
+	  <li><a href="#resource">{{resource.struct.name}}</a></li>
+	  {% block tab_titles %}{% endblock %}
 	</ul>
 	<div id="base-info">
 	  <table cellspacing="0" cellpadding="0" >
 	    <tr>
 	      {% out pe.is_dll 'DLL image'%}
-	      {% out pe.NT_HEADERS.Signature 'NT Header signature' %}
+	      {% out pe.NT_HEADERS.Signature|hex 'NT Header signature' %}
 	      {% out pe.PE_TYPE|peType 'PE type' %}
 	    </tr>
 	  </table>
@@ -237,6 +239,51 @@
 	  </table>
 	  {% endfor %}
 	</div>
+	<div id="resource">
+	  <table cellspacing="0" cellpadding="0" >
+	    <tr>
+	      <td class="title">Id</td>
+	      <td class="title">Resource type</td>
+	      <td class="title">Name</td>
+	      <td class="title">Data is directory</td>
+	      <td class="title">Name offset</td>
+	      <td class="title">Offset to data</td>
+	      <td class="title">Offset to directory</td>
+	    </tr>
+	    {% for en in resource.entries %}
+	    <tr>
+	      <td class="value">{{en.struct.Id}}</td>
+	      <td class="value">{{en.struct.Id|resourceType}}</td>
+	      <td class="value">{{en.struct.Name}}</td>
+	      <td class="value">{{en.struct.DataIsDirectory}}</td>
+	      <td class="value">{{en.struct.NameOffset}}</td>
+	      <td class="value">{{en.struct.OffsetToData|hex8}}</td>
+	      <td class="value">{{en.struct.OffsetToDirectory|hex8}}</td>
+	    </tr>
+	    {% endfor %}
+	  </table>
+	  {% for en in resource.entries %}
+	  <h1>{{en.struct.Id|resourceType}}</h1>
+	  <table cellspacing="0" cellpadding="0" >
+	  {% for enData in en.directory.entries %}
+	    {% for dataEntry in enData.directory.entries %}
+	    <tr>
+	      {% out dataEntry.data.struct.OffsetToData|hex8 'Offset to data'%}
+	      {% out dataEntry.data.struct.Size|hex 'Size'%}
+	      {% out dataEntry.data.struct.CodePage|hex 'Code page'%}
+	      {% out dataEntry.data.struct.Reserved 'Reserved'%}
+	      {% out dataEntry.data.lang|lang 'Lang' %}
+	    </tr>
+	    <tr>
+	      <td class="title">Data</td>
+	      <td class="value" colspan="9">{% peResource pe dataEntry.data.struct.OffsetToData dataEntry.data.struct.Size en.struct.Id %}</td>
+	    </tr>
+	    {% endfor %}
+	  {% endfor %}
+	  </table>
+	  {% endfor %}
+	</div>
+	{% block tab_contents %}{% endblock %}
       </div>
     {% block content %}{% endblock %}
     </div>
