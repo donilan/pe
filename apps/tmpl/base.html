@@ -48,7 +48,9 @@
 	  <li><a href="#op-header">{{op_header.name}}</a></li>
 	  <li><a href="#sections">Sections</a></li>
 	  <li><a href="#imported-symbols">Imported symbols</a></li>
+	  {% if resource %}
 	  <li><a href="#resource">{{resource.struct.name}}</a></li>
+	  {% endif %}
 	  {% block tab_titles %}{% endblock %}
 	</ul>
 	<div id="base-info">
@@ -146,19 +148,19 @@
 	      {% out op_header.SectionAlignment 'Section alignment' %}
 	    </tr>
 	    <tr>
-	      {% out op_header.SizeOfCode 'Size of code' %}
-	      {% out op_header.SizeOfHeaders 'Size of headers' %}
-	      {% out op_header.SizeOfHeapCommit 'Size of heap commit' %}
-	      {% out op_header.SizeOfHeapReserve 'Size of heap reserve' %}
+	      {% out op_header.SizeOfCode|hex 'Size of code' %}
+	      {% out op_header.SizeOfHeaders|hex 'Size of headers' %}
+	      {% out op_header.SizeOfHeapCommit|hex 'Size of heap commit' %}
+	      {% out op_header.SizeOfHeapReserve|hex 'Size of heap reserve' %}
 	    </tr>
 	    <tr>
-	      {% out op_header.SizeOfImage 'Size of image' %}
-	      {% out op_header.SizeOfInitializedData 'Size of initialized data' %}
-	      {% out op_header.SizeOfStackCommit 'Size of stack commit' %}
-	      {% out op_header.SizeOfStackReserve 'Size of stack reserve' %}
+	      {% out op_header.SizeOfImage|hex 'Size of image' %}
+	      {% out op_header.SizeOfInitializedData|hex 'Size of initialized data' %}
+	      {% out op_header.SizeOfStackCommit|hex 'Size of stack commit' %}
+	      {% out op_header.SizeOfStackReserve|hex 'Size of stack reserve' %}
 	    </tr>
 	    <tr>
-	      {% out op_header.SizeOfUninitializedData 'Size of uninitialized data' %}
+	      {% out op_header.SizeOfUninitializedData|hex 'Size of uninitialized data' %}
 	      {% out op_header.Subsystem 'Subsystem' %}
 	      {% out op_header.FileAlignment 'File alignment' 1 %}
 	      {% out op_header.DllCharacteristics 'DLL Characteristics' 1 %}
@@ -239,6 +241,7 @@
 	  </table>
 	  {% endfor %}
 	</div>
+	{% if resource %}
 	<div id="resource">
 	  <table cellspacing="0" cellpadding="0" >
 	    <tr>
@@ -283,6 +286,7 @@
 	  </table>
 	  {% endfor %}
 	</div>
+	{% endif %}
 	{% block tab_contents %}{% endblock %}
       </div>
     {% block content %}{% endblock %}
