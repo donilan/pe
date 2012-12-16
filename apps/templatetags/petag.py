@@ -59,7 +59,10 @@ def section_characteristics(value):
 
 @register.filter(name='timestamp')
 def timestampFn(value):
-    return time.asctime(time.gmtime(value))
+    if value:
+        return time.asctime(time.gmtime(value))
+    else:
+        return '-'
 
 @register.filter(name='peType')
 def peType(value):

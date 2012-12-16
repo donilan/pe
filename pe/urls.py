@@ -16,4 +16,7 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^exe', 'apps.views.exe'),
     url(r'^dll', 'apps.views.dll'),
+    url(r'^$', 'apps.views.upload'),
+    url(r'^upload', 'apps.views.upload'),
+    url(r'^doUpload', 'apps.views.doUpload'),
 )

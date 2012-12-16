@@ -1,6 +1,7 @@
 # Create your views here.
 import pefile
 from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
 
 def exe(request):
     pe = pefile.PE('NOTEPAD.EXE')
@@ -11,6 +12,21 @@ def exe(request):
 def dll(request):
     pe = pefile.PE('PSAPI.DLL')
     return render_to_response('dll.html', _pe_attr(pe))
+
+def upload(request):
+    return render_to_response('upload.html')
+
+@csrf_exempt
+def doUpload(request):
+    f = request.FILES['file']
+    if f:
+        pe = pefile.PE(data = f.read())
+        if pe.is_dll():
+            return render_to_response('dll.html', _pe_attr(pe))
+        else:
+            return render_to_response('exe.html', _pe_attr(pe))
+    else:
+        return render_to_response('upload.html')
 
 def _pe_attr(pe):
     resource = None
