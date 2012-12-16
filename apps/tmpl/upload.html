@@ -3,6 +3,11 @@
 
   </head>
   <body>
+    {% if error %}
+    <div class="error" style="color: red; padding: 10px;">
+      Error when parse pefile.
+    </div>
+    {% endif%}
     <form method="POST" action="doUpload" enctype="multipart/form-data">
       <input type="file" name="file" />
       <input type="submit" value="Upload" />

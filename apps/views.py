@@ -20,7 +20,10 @@ def upload(request):
 def doUpload(request):
     f = request.FILES['file']
     if f:
-        pe = pefile.PE(data = f.read())
+        try:
+            pe = pefile.PE(data = f.read())
+        except pefile.PEFormatError:
+            return render_to_response('upload.html', {'error': True})
         if pe.is_dll():
             return render_to_response('dll.html', _pe_attr(pe))
         else:
