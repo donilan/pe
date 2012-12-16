@@ -250,8 +250,8 @@
 	      <td class="title">Name</td>
 	      <td class="title">Data is directory</td>
 	      <td class="title">Name offset</td>
-	      <td class="title">Offset to data</td>
 	      <td class="title">Offset to directory</td>
+	      <td class="title">File offset</td>
 	    </tr>
 	    {% for en in resource.entries %}
 	    <tr>
@@ -260,21 +260,35 @@
 	      <td class="value">{{en.struct.Name}}</td>
 	      <td class="value">{{en.struct.DataIsDirectory}}</td>
 	      <td class="value">{{en.struct.NameOffset}}</td>
-	      <td class="value">{{en.struct.OffsetToData|hex8}}</td>
 	      <td class="value">{{en.struct.OffsetToDirectory|hex8}}</td>
+	      <td class="value">{{en.struct.get_file_offset|hex}}</td>
 	    </tr>
 	    {% endfor %}
 	  </table>
 	  {% for en in resource.entries %}
-	  <h1>{{en.struct.Id|resourceType}}</h1>
+	  <h1>{{en.struct.Id}} - {{en.struct.Id|resourceType}}</h1>
 	  <table cellspacing="0" cellpadding="0" >
 	  {% for enData in en.directory.entries %}
+	  <tr>
+	    {% out '2' 'Level'%}
+	    {% out enData.struct.get_file_offset|hex 'File offset' %}
+	    {% out enData.struct.Id 'Id' %}
+	    {% out enData.struct.OffsetToData|hex 'Offset to data'%}
+	    <td colspan="2"></td>
+	  </tr>
 	    {% for dataEntry in enData.directory.entries %}
+	  <tr>
+	    {% out '3' 'Level'%}
+	    {% out dataEntry.struct.get_file_offset|hex 'File offset' %}
+	    {% out dataEntry.struct.Id 'Id' %}
+	    {% out dataEntry.struct.OffsetToData|hex 'Offset to data'%}
+	    <td colspan="2"></td>
+	  </tr>
 	    <tr>
-	      {% out dataEntry.data.struct.OffsetToData|hex8 'Offset to data'%}
+	      {% out '4' 'Level' %}
+	      {% out dataEntry.data.struct.get_file_offset|hex 'File offset'%}
+	      {% out dataEntry.data.struct.OffsetToData|hex 'Offset to data'%}
 	      {% out dataEntry.data.struct.Size|hex 'Size'%}
-	      {% out dataEntry.data.struct.CodePage|hex 'Code page'%}
-	      {% out dataEntry.data.struct.Reserved 'Reserved'%}
 	      {% out dataEntry.data.lang|lang 'Lang' %}
 	    </tr>
 	    <tr>

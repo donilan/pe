@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 def exe(request):
     pe = pefile.PE('NOTEPAD.EXE')
 #    pe = pefile.PE('helloWorld.exe')
+#    pe = pefile.PE('pe.exe')
     return render_to_response('exe.html', _pe_attr(pe))
 
 def dll(request):
