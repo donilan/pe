@@ -27,8 +27,8 @@ def menuResource(pe, rva, size):
         # POPUP menu
         if 0x0010 & itemFlags > 0:
             menuStr.append('POPUP ')
-            _offset, _str = _readerUnicode(pe, rva+offset)
-            offset += _offset
+            _str = pe.get_string_u_at_rva(rva+offset)
+            offset += len(_str)*2+2
             menuStr.append(_str)
             menuStr.append('\n')
             menuStr.append('BEGIN\n')
@@ -42,8 +42,8 @@ def menuResource(pe, rva, size):
             # menu item
             else:
                 menuStr.append('\tMENUITEM "')
-                _offset, _str = _readerUnicode(pe, rva+offset)
-                offset += _offset
+                _str = pe.get_string_u_at_rva(rva+offset)
+                offset += len(_str)*2+2
                 menuStr.append(_str)
                 menuStr.append('"\t%d' % menuId)
             menuStr.append('\n')
@@ -55,15 +55,20 @@ def menuResource(pe, rva, size):
 
 def rtResource(pe, rva, size):
     offset = 0
+    data = pe.get_memory_mapped_image()[rva:rva+size]
     strings = []
-    print hex(pe.get_offset_from_rva(rva))
     while True:
         if offset >= size:
             break
-        _offset, _str = _readerUnicode(pe, rva+offset)
-        offset += _offset
-        strings.append(_str)
-    return '<pre>' + ''.join(strings) + '</pre>'
+        ustr_length = pe.get_word_from_data(data[offset:offset+2],0)
+        offset += 2
+        if ustr_length == 0:
+            continue
+        ustr = pe.get_string_u_at_rva(rva+offset, ustr_length)
+        offset += ustr_length*2
+        strings.append(u'Offset: 0x%08X, length: 0x%04X, value: %s'\
+                           % (rva+offset, ustr_length*2, ustr))
+    return '<ol>' + ''.join(['<li>' + s + '</li>' for s in strings]) + '</ol>'
 
 def iconGroupResource(pe, rva, size):
     data = pe.get_memory_mapped_image()[rva: rva+size]
