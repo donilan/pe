@@ -1,16 +1,42 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-
-  </head>
-  <body>
-    {% if error %}
-    <div class="error" style="color: red; padding: 10px;">
-      Error when parse pefile.
-    </div>
-    {% endif%}
-    <form method="POST" action="doUpload" enctype="multipart/form-data">
-      <input type="file" name="file" />
-      <input type="submit" value="Upload" />
-    </form>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block css %}
+<style type="text/css" media="screen">
+.file {display: none;}  
+.file-button {padding: 10px;}
+#content {
+  margin: 200px 300px; 
+  border: 10px solid #CCC;
+  padding: 30px;
+  text-align: center;
+}
+</style>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+  $(function(){
+  $('.button').button();
+  $('.file').change(function(){
+    $('.file-button').text($(this).val());
+  });
+  $('.file-button').click(function(){
+    $('.file').click();
+  });
+  });
+  
+</script>
+{% endblock %}
+{% block content %}
+{% if error %}
+<div class="error" style="color: red; padding: 10px;">
+  Error when parse pefile.
+</div>
+{% endif%}
+<div id="upload-wrapper">
+<form id="upload-form" method="POST" action="1.0/parse" enctype="multipart/form-data">
+  <input class="file" type="file" name="file" />
+  <a class="button file-button" href="###" >Choice a file for parse.</a>
+</form>
+<a class="button" href="###" onclick="$('#upload-form').attr('action', '1.0/parse').submit();" >Parse 1.0</a>
+<a class="button" href="###" onclick="$('#upload-form').attr('action', '2.0/parse').submit();" >Parse 2.0</a>
+</div>
+{% endblock %}

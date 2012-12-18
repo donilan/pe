@@ -17,7 +17,7 @@ def upload(request):
     return render_to_response('upload.html')
 
 @csrf_exempt
-def doUpload(request):
+def parse01(request):
     f = request.FILES['file']
     if f:
         try:
@@ -50,3 +50,14 @@ def _pe_attr(pe):
             'resource_length': resourceLength,
             }
 
+@csrf_exempt
+def parse02(request):
+    f = request.FILES['file']
+    if f:
+        try:
+            pe = pefile.PE(data = f.read())
+        except pefile.PEFormatError:
+            return render_to_response('upload.html', {'error': True})
+        return render_to_response('parse02.html', _pe_attr(pe))
+    else:
+        return render_to_response('upload.html')

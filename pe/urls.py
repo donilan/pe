@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     url(r'^dll', 'apps.views.dll'),
     url(r'^$', 'apps.views.upload'),
     url(r'^upload', 'apps.views.upload'),
-    url(r'^doUpload', 'apps.views.doUpload'),
+    url(r'^1.0/parse', 'apps.views.parse01'),
+    url(r'^2.0/parse', 'apps.views.parse02'),
 )
