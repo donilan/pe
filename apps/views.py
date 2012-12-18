@@ -55,7 +55,9 @@ def parse02(request):
     f = request.FILES['file']
     if f:
         try:
-            pe = pefile.PE(data = f.read())
+            data = f.read()
+            pe = pefile.PE(data = data)
+            request.session['pe'] = data
         except pefile.PEFormatError:
             return render_to_response('upload.html', {'error': True})
         return render_to_response('parse02.html', _pe_attr(pe))

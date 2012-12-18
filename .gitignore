@@ -40,3 +40,4 @@ nosetests.xml
 *.dll
 *.DLL
 *.pyc
+pe.db
