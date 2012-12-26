@@ -1,16 +1,15 @@
 #content {width: 1090px; margin: 20px 5px;}
 .wrapper, #title {border: 1px solid #CCC; border-top: 0;}
 .wrapper {float: left; border-right: 0;}
-#pre, .pre-length {width: 90px; color: #AAA; }
-#digit, #ascii, #unicode {width: 320px; }
+#digit, #ascii{width: 320px; }
+#unicode {width: 160px;}
 #next {width: 50px; border-right: 3px solid #CCC;}
 #pre, #next { text-align: center;}
 .title-cells {border-bottom: 1px solid red; height: 20px; width; 100%; top: -0; position: absolute; background-color: white;}
 .cell {padding: 0; float: left; display: block; border: 1px solid transparent; height: 18px; width: 18px;}
-.unicode-cell {width: 38px;}
 
 .cell-hover {background-color: #CCC;}
-
 .left, .left-block {float: left;}
 .block, .left-block {display: block;}
 .has-height {height: 1px;}
+#position,.position {width: 70px; color: #AAA; }

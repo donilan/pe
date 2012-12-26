@@ -19,25 +19,34 @@ def parse(request):
     else:
         return render_to_response('upload.html', {'error': True})
 
-def load(request, offset):
+def load(request, offset, _length):
+    length = int(_length)
+    offset = int(offset)
     data = request.session['pe']
-    tmp = data[int(offset): 512]
     return HttpResponse(simplejson.dumps(
-            {'digit': _toDigit(tmp),
-             'ascii': _toAscii(tmp),
-             'unicode': _toUnicode(tmp),
+            {'digit': _toDigit(data, offset, length),
+             'ascii': _toAscii(data, offset, length),
+             'unicode': _toUnicode(data, offset, length),
+             'position': _toPosition(offset, length),
+             'offset': offset,
+             'length': length,
                  }), mimetype='application/json')
 
-def _toDigit(value):
+def _toPosition(offset, length):
+    return ''.join(_spanValue('%08X'% i, 'position-cell', 'position', i)\
+                       for i in range(offset, offset+length, 16))
+
+def _toDigit(value, offset, length):
     result = []
-    for i in range(0, len(value)):
-        result.append(_spanValue('%02X' % ord(value[i]), 'data', 'data-cell', i))
+    for i in range(offset, offset+length):
+        result.append(_spanValue('%02X' % ord(value[i]),\
+                                     'digit', 'digit-cell', i))
     return ''.join(result)
 
 
-def _toUnicode(value):
+def _toUnicode(value, offset, length):
     result = []
-    for i in range(0, len(value), 2):
+    for i in range(offset, offset+length, 2):
         try:
             val = unichr(struct.unpack('h', value[i:i+2])[0])
         except ValueError:
@@ -45,9 +54,9 @@ def _toUnicode(value):
         result.append(_spanValue(val, 'unicode', 'unicode-cell', i))
     return ''.join(result)
 
-def _toAscii(value):
+def _toAscii(value, offset, length):
     result = []
-    for i in range(0, len(value)):
+    for i in range(offset, offset+length):
         val = value[i]
         if not val in string.printable:
             val = '.'

@@ -8,8 +8,8 @@
 <script type="text/javascript" src="/static/js/parse2.js"></script>
 {% endblock %}
 {% block content %}
-<div id="pre" class="wrapper">
-
+<div id="position" class="wrapper">
+  <!-- ajax -->
 </div>
 <div id="digit" class="wrapper">
   <div class="title-cells">
@@ -17,7 +17,6 @@
       <span class="cell">{{i|hexStr}}{{i|hexStr}}</span>
       {% endfor %}
   </div>
-
 </div>
 <div id="ascii" class="wrapper">
   <div class="title-cells">
@@ -25,11 +24,10 @@
       <span class="cell">{{i|hexStr}}</span>
       {% endfor %}
   </div>
-
 </div>
 <div id="unicode" class="wrapper">
   <div class="title-cells">
-      {% for i in 16|range %}
+      {% for i in 8|range %}
       <span class="cell">{{i|hexStr}}</span>
       {% endfor %}
   </div>

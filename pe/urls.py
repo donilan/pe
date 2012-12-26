@@ -17,5 +17,5 @@ urlpatterns = patterns('',
     url(r'^$', 'apps.views.upload'),
     url(r'^upload', 'apps.views.upload'),
     url(r'^parse', 'apps.views.parse'),
-    url(r'^load/(?P<offset>\d+)', 'apps.views.load'),
+    url(r'^load/(?P<offset>\d+)/(?P<_length>\d+)', 'apps.views.load'),
 )
