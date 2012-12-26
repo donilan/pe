@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load petag %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/parse20.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/static/js/parse2.js"></script>
+{% endblock %}
+{% block content %}
+<div id="pre" class="wrapper">
+
+</div>
+<div id="digit" class="wrapper">
+  <div class="title-cells">
+      {% for i in 16|range %}
+      <span class="cell">{{i|hexStr}}{{i|hexStr}}</span>
+      {% endfor %}
+  </div>
+
+</div>
+<div id="ascii" class="wrapper">
+  <div class="title-cells">
+      {% for i in 16|range %}
+      <span class="cell">{{i|hexStr}}</span>
+      {% endfor %}
+  </div>
+
+</div>
+<div id="unicode" class="wrapper">
+  <div class="title-cells">
+      {% for i in 16|range %}
+      <span class="cell">{{i|hexStr}}</span>
+      {% endfor %}
+  </div>
+
+</div>
+<div id="next" class="wrapper">
+
+</div>
+
+{% endblock %}

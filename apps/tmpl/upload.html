@@ -32,11 +32,10 @@
 </div>
 {% endif%}
 <div id="upload-wrapper">
-<form id="upload-form" method="POST" action="1.0/parse" enctype="multipart/form-data">
+<form id="upload-form" method="POST" action="parse" enctype="multipart/form-data">
   <input class="file" type="file" name="file" />
   <a class="button file-button" href="###" >Choice a file for parse.</a>
 </form>
-<a class="button" href="###" onclick="$('#upload-form').attr('action', '1.0/parse').submit();" >Parse 1.0</a>
-<a class="button" href="###" onclick="$('#upload-form').attr('action', '2.0/parse').submit();" >Parse 2.0</a>
+<a class="button" href="###" onclick="$('#upload-form').submit();" >Parse 2.0</a>
 </div>
 {% endblock %}

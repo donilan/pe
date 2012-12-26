@@ -14,10 +14,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^exe', 'apps.views.exe'),
-    url(r'^dll', 'apps.views.dll'),
     url(r'^$', 'apps.views.upload'),
     url(r'^upload', 'apps.views.upload'),
-    url(r'^1.0/parse', 'apps.views.parse01'),
-    url(r'^2.0/parse', 'apps.views.parse02'),
+    url(r'^parse', 'apps.views.parse'),
+    url(r'^load/(?P<offset>\d+)', 'apps.views.load'),
 )

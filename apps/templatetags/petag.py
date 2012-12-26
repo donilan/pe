@@ -114,41 +114,7 @@ def outFn(context, value, title, important=False):
 def peResource(context, pe, rva, size, typeId):
     return apps.peutil.resource(pe, typeId, rva, size)
 
-@register.filter(name='toBin')
-def toBin(value):
-    result = []
-    for i in range(0, len(value)):
-        result.append(_spanValue('%02X' % ord(value[i]), 'data', 'data-cell', i))
-    return ''.join(result)
-
-@register.filter(name='toAscii')
-def toAscii(value):
-    result = []
-    for i in range(0, len(value)):
-        val = value[i]
-        if not val in string.printable:
-            val = '.'
-        result.append(_spanValue(val, 'ascii', 'ascii-cell', i))
-    return ''.join(result)
-
-@register.filter(name='toUnicode')
-def toUnicode(value):
-    result = []
-    for i in range(0, len(value), 2):
-        try:
-            val = unichr(struct.unpack('h', value[i:i+2])[0])
-        except ValueError:
-            val = '.'
-        result.append(_spanValue(val, 'unicode', 'unicode-cell', i))
-    return ''.join(result)
-
-def _spanValue(value, _id, clazz, idx):
-    return ''.join([
-                    '<span id="%s-%d" class="cell %s" >' % (_id, idx, clazz),
-                    value,
-                    '</span>'])
-
 @register.filter(name='range')
-def rangeFn(value, start=0, step=1):
-    return range(start, value, step)
+def rangeFn(value, step=1):
+    return range(0, value, step)
     
